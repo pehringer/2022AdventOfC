@@ -21,6 +21,7 @@ int main()
 
     do {
 	ch = fgetc(ptr);
+
         //Empty line, counted all numbers for elf.
         //Compare elf count to top three elf counts
         if(ch == '\n' && lastNewLine) {
@@ -39,6 +40,7 @@ int main()
 	      //Reset for next elf.
               currentCount = 0;
         }
+
 	//End of line. Parse out number stored in
 	//digits and add it to the elfs count.
         if(ch == '\n') {
@@ -47,6 +49,7 @@ int main()
             currentCount += atoi(digits);
             currentDigit = 0;
         }
+
 	//Read in digit for lines number, store in digits.
         if(ch != '\n') {
              lastNewLine = 0;
