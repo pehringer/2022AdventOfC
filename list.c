@@ -1,18 +1,16 @@
 #include"data_structures.h"
 
 struct list list_allocate(int type_size, int length) {
-  int capacity = length * 2;
-  struct array a = array_allocate(type_size, capacity);
-  struct list l = {a, capacity, length, 0};
+  struct array a = array_allocate(type_size, length * 2);
+  struct list l = {a, length, 0};
   return l;
 }
 
 struct list list_slice(struct list *l, int index_start, int index_end) {
   int length = index_end - index_start;
-  int capacity = length * 2;
-  struct array a = array_allocate(l->a.type_size, capacity);
+  struct array a = array_allocate(l->a.type_size, length * 2);
   array_copy(&a, 0, list_at(l, index_start), list_at(l, index_end));
-  struct list s = {a, capacity, length, 0};
+  struct list s = {a, length, 0};
   return s;
 }
 
@@ -21,7 +19,7 @@ void list_reallocate(struct list *l, int capacity) {
   int end = length < capacity ? length : capacity;
   struct array a = array_allocate(l->a.type_size, capacity);
   array_copy(&a, 0, array_at(&(l->a), l->start), array_at(&(l->a), l->end));
-  struct list r = {a, capacity, end, 0};
+  struct list r = {a, end, 0};
   *l = r;
 }
 
@@ -40,14 +38,14 @@ int list_length(struct list *l) {
 void list_append(struct list *l, struct list *r) {
   int length = list_length(l) + list_length(r);
   int end = l->start + length;
-  if(end >= l->capacity)
+  if(end >= array_length(&(l->a)))
     list_reallocate(l, length * 2);
   array_copy(&(l->a), l->end, array_at(&(r->a), r->start), array_at(&(r->a), r->end));
   l->end = end;
 }
 
 void list_push_back(struct list *l, void* element) {
-  if(l->end == l->capacity)
+  if(l->end == array_length(&(l->a)))
     list_reallocate(l, (list_length(l) + 1) * 2);
   unsigned char *source = element;
   unsigned char *destination = array_at(&(l->a), (l->end)++);
@@ -91,13 +89,13 @@ int main() {
 
   for(int i = 0; i < list_length(&test0); i++)
     printf("%d ", *((int*)list_at(&test0, i)));
-  printf("len: %d cap: %d start: %d end: %d\n", list_length(&test0), test0.capacity, test0.start, test0.end);
+  printf("len: %d cap: %d start: %d end: %d\n", list_length(&test0), array_length(&test0.a), test0.start, test0.end);
 
   struct list test1 = list_slice(&test0, 0, 4);
 
   for(int i = 0; i < list_length(&test1); i++)
     printf("%d ", *((int*)list_at(&test1, i)));
-  printf("len: %d cap: %d start: %d end: %d\n", list_length(&test1), test1.capacity, test1.start, test1.end);
+  printf("len: %d cap: %d start: %d end: %d\n", list_length(&test1), array_length(&test0.a), test1.start, test1.end);
 
   list_append(&test0, &test1);
   list_append(&test0, &test1);
@@ -105,13 +103,13 @@ int main() {
 
   for(int i = 0; i < list_length(&test0); i++)
     printf("%d ", *((int*)list_at(&test0, i)));
-  printf("len: %d cap: %d start: %d end: %d\n", list_length(&test0), test0.capacity, test0.start, test0.end);
+  printf("len: %d cap: %d start: %d end: %d\n", list_length(&test0), array_length(&test0.a), test0.start, test0.end);
 
   struct list test2 = list_slice(&test0, 0, list_length(&test0));
 
   for(int i = 0; i < list_length(&test2); i++)
     printf("%d ", *((int*)list_at(&test2, i)));
-  printf("len: %d cap: %d start: %d end: %d\n", list_length(&test2), test2.capacity, test2.start, test2.end);
+  printf("len: %d cap: %d start: %d end: %d\n", list_length(&test2), array_length(&test2.a), test2.start, test2.end);
 
   list_reallocate(&test2, 12);
 
@@ -142,28 +140,28 @@ int main() {
 
   for(int i = 0; i < list_length(&test2); i++)
     printf("%d ", *((int*)list_at(&test2, i)));
-  printf("len: %d cap: %d start: %d end: %d\n", list_length(&test2), test2.capacity, test2.start, test2.end);
+  printf("len: %d cap: %d start: %d end: %d\n", list_length(&test2), array_length(&test2.a), test2.start, test2.end);
 
   element = 42;
   list_push_back(&test2, &element);
 
   for(int i = 0; i < list_length(&test2); i++)
     printf("%d ", *((int*)list_at(&test2, i)));
-  printf("len: %d cap: %d start: %d end: %d\n", list_length(&test2), test2.capacity, test2.start, test2.end);
+  printf("len: %d cap: %d start: %d end: %d\n", list_length(&test2), array_length(&test2.a), test2.start, test2.end);
 
   element = 84;
   list_push_back(&test2, &element);
 
   for(int i = 0; i < list_length(&test2); i++)
     printf("%d ", *((int*)list_at(&test2, i)));
-  printf("len: %d cap: %d start: %d end: %d\n", list_length(&test2), test2.capacity, test2.start, test2.end);
+  printf("len: %d cap: %d start: %d end: %d\n", list_length(&test2), array_length(&test2.a), test2.start, test2.end);
 
   element = 168;
   list_push_back(&test2, &element);
 
   for(int i = 0; i < list_length(&test2); i++)
     printf("%d ", *((int*)list_at(&test2, i)));
-  printf("len: %d cap: %d start: %d end: %d\n", list_length(&test2), test2.capacity, test2.start, test2.end);
+  printf("len: %d cap: %d start: %d end: %d\n", list_length(&test2), array_length(&test2.a), test2.start, test2.end);
 
 }
 */

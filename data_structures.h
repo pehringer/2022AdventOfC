@@ -19,7 +19,6 @@ int array_length(struct array *a);
 //List, Note supports negative indexes.
 struct list {
   struct array a;
-  int capacity;
   int end;
   int start;
 };
