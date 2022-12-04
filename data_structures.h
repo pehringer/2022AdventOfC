@@ -26,7 +26,7 @@ struct list {
 
 struct list list_allocate(int type_size, int length);
 struct list list_slice(struct list *l, int index_start, int index_end);
-void list_reallocate(struct list *l, int length);
+void list_reallocate(struct list *l, int capacity);
 void list_deallocate(struct list *l);
 void* list_at(struct list *l, int index);
 int list_length(struct list *l);

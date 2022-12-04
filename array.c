@@ -13,7 +13,7 @@ void array_deallocate(struct array *a) {
 
 void array_copy(struct array *a, int start_index, void *source_start, void *source_end) {
   unsigned char *source = source_start;
-  unsigned char *destination = (unsigned char*) a->start + (start_index * a->type_size);
+  unsigned char *destination = a->start + (start_index * a->type_size);
   while(destination < a->end && source < (unsigned char*) source_end)
     *(destination++) = *(source++);
 }
