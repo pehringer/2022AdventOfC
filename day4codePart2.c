@@ -6,7 +6,7 @@ int main()
 
 	ptr = fopen("day4input.txt", "r");
 	if (NULL == ptr)
-		printf("ERROR cannot open day3input.txt\n");
+		printf("ERROR cannot open day4input.txt\n");
 
 	int redo_pairs = 0;
 	int pairs[4];
