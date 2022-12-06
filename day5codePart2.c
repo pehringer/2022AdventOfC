@@ -39,15 +39,6 @@ int main()
 				break;
 		}
 	}
-	/*
-	//Print out starting stack state.
-	for(int r = 0; r < rows; r++) {
-		for(int c = 0; c < columns; c++)
-			printf("%c ", starting_state[(r * columns) + c]);
-		printf("\n");
-	}
-	printf("ROWS: %d COLUMNS: %d\n", rows, columns);
-	*/
 	//Allocate working state.
 	char *working_state = malloc(sizeof(char) * ((rows * columns) * columns));
 	for(int i = 0; i < (rows * columns) * columns; i++)
@@ -64,17 +55,6 @@ int main()
 			working_state[(wr * columns) + c] = starting_state[(sr * columns) + c];
 		}
 	}
-	/*
-	//Print out working stack state.
-	for(int i = 0; i < columns; i++)
-		printf("%d ", top[i]);
-	printf("\n");
-        for(int r = 0; r < rows; r++) {
-                for(int c = 0; c < columns; c++)
-                        printf("%c ", working_state[(r * columns) + c]);
-                printf("\n");
-        }
-	*/
 	//Skip newline dlim.
 	fgetc(ptr);
 	//Parse moves.
@@ -96,9 +76,6 @@ int main()
 			//Process move.
 			if(numbers == 3) {
 				numbers = 0;
-				/*
-				printf("MOVE: %d %d %d\n", number[0], number[1], number[2]);
-				*/
 				top[number[1]-1] -= (number[0] - 1); //Added to part2.
 				for(int n = 0; n < number[0]; n++) {
 					top[number[2]-1]++;
