@@ -254,41 +254,37 @@ unsigned long hash_sdbm(unsigned char *string);
 
 /*
 ################################################################
-Dictionary structs and functions below.
+Skip list structs and functions below.
 ################################################################
 */
 
-/*
+
 // Used to hold state of dictionary. Property manipulated with any functions
 // that begin with "dictionary_".
-struct dictionary {
+struct skip {
   struct array arr;
+  int (*compare)(const void *, const void*);
+  int free;
   int head;
+  int length;
+  int levels;
 };
 
-// Used to hold state of dictionary key value pair. Used internally by
-// functions that begin with "dictionary_".
-struct key_value {
-  char key[64];
-  int next;
-  int previous;
-};
+struct skip skip_allocate(int type_size, int levels, int (*compare)(const void *, const void*));
 
-struct dictionary dictionary_allocate(int type_size);
+void skip_reallocate(struct skip *skp, int capacity);
 
-void dictionary_reallocate(struct dictionary *dic);
+void skip_deallocate(struct skip *skp);
 
-void dictionary_deallocate(struct dictionary *dic);
+void skip_insert(struct skip *skp, void *element);
 
-void dictionary_keys(struct dictionary *dic, char keys[][64]);
+void skip_remove(struct skip *skp, void *element);
 
-void dictionary_at(struct dictionary *dic, char key[64]);
+void skip_search(struct skip *skp, char *element);
 
-void dictionary_in(struct dictionary *dic, char key[64]);
+void skip_length(struct skip *skp);
 
-void dictionary_get(struct dictionary *dic, char key[64], void *element);
+struct list skip_elements(struct skip * skp);
 
-void dictionary_set(struct dictionary *dic, char key[64], void *element);
-*/
 
 #endif

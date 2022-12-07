@@ -7,7 +7,7 @@ int main()
 
 	ptr = fopen("day6input.txt", "r");
 	if (NULL == ptr)
-		printf("ERROR cannot open day5input.txt\n");
+		printf("ERROR cannot open day6input.txt\n");
 
 	char data[14];
 	for(int d = 1; d < 14; d++)

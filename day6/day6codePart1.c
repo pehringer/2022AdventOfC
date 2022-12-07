@@ -7,7 +7,7 @@ int main()
 
 	ptr = fopen("day6input.txt", "r");
 	if (NULL == ptr)
-		printf("ERROR cannot open day5input.txt\n");
+		printf("ERROR cannot open day6input.txt\n");
 
 	char d0;
 	char d1 = fgetc(ptr);
